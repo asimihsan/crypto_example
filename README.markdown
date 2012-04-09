@@ -120,11 +120,6 @@ the file format of an encrypted file is:
 
 -   TODO. See `crypto.py`, in particular `header_format` in `encrypt_file()`.
 
-API
----
-
--   TODO.
-
 Development notes
 -----------------
 
