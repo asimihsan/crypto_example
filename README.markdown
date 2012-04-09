@@ -17,64 +17,64 @@ Requirements and Installation
 Quick start
 -----------
 
->>> from utilities import crypto
->>> plaintext = "this is some text"
->>> key = "this is my key"
->>> ciphertext = crypto.encrypt_string(plaintext, key)
->>> plaintext_after = crypto.decrypt_string(ciphertext, key)
->>> print plaintext_after
-this is some text
+        >>> from utilities import crypto
+        >>> plaintext = "this is some text"
+        >>> key = "this is my key"
+        >>> ciphertext = crypto.encrypt_string(plaintext, key)
+        >>> plaintext_after = crypto.decrypt_string(ciphertext, key)
+        >>> print plaintext_after
+        this is some text
 
 What happens if someone alters the encrypted string? You'll get one of two exceptions:
 
->>> ciphertext_altered = ciphertext[:-1] + '\0'
->>> plaintext_after = crypto.decrypt_string(ciphertext_altered, key)
-Traceback (most recent call last):
-  File "<pyshell#14>", line 1, in <module>
-    plaintext_after = crypto.decrypt_string(ciphertext_altered, key)
-  File ".\utilities\crypto.py", line 76, in decrypt_string
-    decrypt_file(ciphertext_obj, key, plaintext_obj)
-  File ".\utilities\crypto.py", line 172, in decrypt_file
-    raise HMACIsNotValidException
-HMACIsNotValidException
+        >>> ciphertext_altered = ciphertext[:-1] + '\0'
+        >>> plaintext_after = crypto.decrypt_string(ciphertext_altered, key)
+        Traceback (most recent call last):
+          File "<pyshell#14>", line 1, in <module>
+            plaintext_after = crypto.decrypt_string(ciphertext_altered, key)
+          File ".\utilities\crypto.py", line 76, in decrypt_string
+            decrypt_file(ciphertext_obj, key, plaintext_obj)
+          File ".\utilities\crypto.py", line 172, in decrypt_file
+            raise HMACIsNotValidException
+        HMACIsNotValidException
 
 or:
 
->>> ciphertext_truncated = ciphertext[:-5]
->>> plaintext_after = crypto.decrypt_string(ciphertext_truncated, key)
-Traceback (most recent call last):
-  File "<pyshell#16>", line 1, in <module>
-    plaintext_after = crypto.decrypt_string(ciphertext_truncated, key)
-  File ".\utilities\crypto.py", line 76, in decrypt_string
-    decrypt_file(ciphertext_obj, key, plaintext_obj)
-  File ".\utilities\crypto.py", line 168, in decrypt_file
-    raise InvalidFormatException("len(hmac) %s != hmac_size %s" % (len(hmac), hmac_size))
-InvalidFormatException: 'len(hmac) 27 != hmac_size 32'
+        >>> ciphertext_truncated = ciphertext[:-5]
+        >>> plaintext_after = crypto.decrypt_string(ciphertext_truncated, key)
+        Traceback (most recent call last):
+          File "<pyshell#16>", line 1, in <module>
+            plaintext_after = crypto.decrypt_string(ciphertext_truncated, key)
+          File ".\utilities\crypto.py", line 76, in decrypt_string
+            decrypt_file(ciphertext_obj, key, plaintext_obj)
+          File ".\utilities\crypto.py", line 168, in decrypt_file
+            raise InvalidFormatException("len(hmac) %s != hmac_size %s" % (len(hmac), hmac_size))
+        InvalidFormatException: 'len(hmac) 27 != hmac_size 32'
 
 You can do streaming symmetric encryption and decryption of files, such that very large files do not get fully loaded into memory:
 
->>> plaintext_filepath = "c:\file1.txt"
->>> ciphertext_filepath = "C:\file2.txt"
->>> key = "my little key"
-... with open(plaintext_filepath, "rb") as f_in:
-...     with open(ciphertext_filepath, "rb+") as f_out:
-...         crypto.encrypt_file(f_in,
-...                             key,
-...                             f_out)
->>> plaintext_after_filepath = "c:\file3.txt"
->>> with open(ciphertext_filepath, "rb") as f_in:
-...     with open(plaintext_after_filepath, "wb") as f_out:
-...               crypto.decrypt_file(f_in,
-...                                   key,
-...                                   f_out)
+        >>> plaintext_filepath = "c:\file1.txt"
+        >>> ciphertext_filepath = "C:\file2.txt"
+        >>> key = "my little key"
+        ... with open(plaintext_filepath, "rb") as f_in:
+        ...     with open(ciphertext_filepath, "rb+") as f_out:
+        ...         crypto.encrypt_file(f_in,
+        ...                             key,
+        ...                             f_out)
+        >>> plaintext_after_filepath = "c:\file3.txt"
+        >>> with open(ciphertext_filepath, "rb") as f_in:
+        ...     with open(plaintext_after_filepath, "wb") as f_out:
+        ...               crypto.decrypt_file(f_in,
+        ...                                   key,
+        ...                                   f_out)
 
 And by adding a compress flag you can compress plaintext before encryption for both strings and files:
 
->>> plaintext = "X" * 1024 * 1024
->>> key = "my little key"
->>> ciphertext = crypto.encrypt_string(plaintext, key, compress=True)
->>> print len(ciphertext)
-141
+        >>> plaintext = "X" * 1024 * 1024
+        >>> key = "my little key"
+        >>> ciphertext = crypto.encrypt_string(plaintext, key, compress=True)
+        >>> print len(ciphertext)
+        141
 
 Features
 --------
