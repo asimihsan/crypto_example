@@ -10,9 +10,9 @@ Requirements and Installation
 -   You will require [PyCrypto](https://www.dlitz.net/software/pycrypto/). If you're on Windows, [here are the binaries](http://www.voidspace.org.uk/python/modules.shtml).
 -   If you want to run the tests (recommended) you need [nose](http://readthedocs.org/docs/nose/en/latest/). You can install nose via [pip](http://www.pip-installer.org/en/latest/index.html).  In order to install both pip and nose one could, for example, run (with cygwin on Windows):
 
-    curl http://python-distribute.org/distribute_setup.py | python
-    curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | python
-    pip install nose
+        curl http://python-distribute.org/distribute_setup.py | python
+        curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | python
+        pip install nose
 
 Quick start
 -----------
