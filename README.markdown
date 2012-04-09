@@ -111,7 +111,7 @@ and the process for decrypting a file (`decrypt_file()`):
 
 -   Unpack the start of the encrypted file to get configuration values (`pbkdf2_count`, `pbkdf2_dk_len`, `compress`) and public values (`password_salt`, `nonce`, `hmac_salt`).
 -   Prepare the HMAC with the configuration values and public values.
--   First pass: stream in the ciphertext into the HMAC object. If the HMAC isn't value, bail out.
+-   First pass: stream in the ciphertext into the HMAC object. If the HMAC isn't valid, bail out.
 -   Use PBKDF2 to derive the password.
 -   Create an AES instance in CTR mode using the derived password.
 -   Second pass: stream in the ciphertext. If we're compressing then decompress as well. Write this to the ciphertext file.
