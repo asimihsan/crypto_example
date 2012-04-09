@@ -71,9 +71,9 @@ You can do streaming symmetric encryption and decryption of files, such that ver
 >>> plaintext_after_filepath = "c:\file3.txt"
 >>> with open(ciphertext_filepath, "rb") as f_in:
 ...     with open(plaintext_after_filepath, "wb") as f_out:
-...               crypto.decrypt_file(f_in,
-...                                   key,
-...                                   f_out)
+...           crypto.decrypt_file(f_in,
+...                               key,
+...                               f_out)
 ```
 
 And by adding a compress flag you can compress plaintext before encryption for both strings and files:
