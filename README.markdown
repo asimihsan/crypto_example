@@ -14,8 +14,8 @@ Requirements and Installation
         curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | python
         pip install nose
 
-Quick start
------------
+How to use
+----------
 
 ```py
 >>> from utilities import crypto
@@ -86,9 +86,6 @@ And by adding a compress flag you can compress plaintext before encryption for b
 141
 ```
 
-Features
---------
-
 Design
 ------
 
@@ -97,16 +94,30 @@ As stated in [Cryptographic Right Answers](http://www.daemonology.net/blog/2009-
 -   Encrypting data: Use AES in CTR (Counter) mode, and append an HMAC.
 -   AES key length: Use 256-bit AES keys.
 -   Hash / HMAC algorithm: Use SHA256 / HMAC-SHA256.
--   Password handling: As soon as you receive a password, hash it using scrpt or PBKDF2 and erase the plaintext password from memory.
+-   Password handling: As soon as you receive a password, hash it using scrypt or PBKDF2 and erase the plaintext password from memory.
 
 Following from this, the process for encrypting a file is:
+-   Generate `password_salt`, a random 16-byte string.
+-   Using PBKDF2, derive `cipher_password_derived` from the key and `password_salt`. This will be used to encrypt the plaintext.
+-   Generate `nonce`, a random 8-byte string concatenated with a counter that starts at 0.
+-   Start a new AES cipher instance in counter (CTR) mode that uses the nonce and counter above, with `cipher_password_derived` as the key.
+-   Generate `hmac_salt`, a random 16-byte string.
+-   Using PBKDF2, derive `hmac_password_derived` from the key and `hmac_salt`. This will be used to generate the HMAC.
+-   Start a new HMAC instance which hashes all values used, not just the ciphertext that will eventually be generated, using `hmac_password_derived`.
+-   Read in the plaintext in chunks from the file-like object. If we're compressing then stream this into a BZ2Compressor() instance. Write this into the ciphertext file.
 
 and the process for decrypting a file:
 
+-   TODO. Reverse of above :).
+
 the file format of an encrypted file is:
+
+-   TODO. See `crypto.py`, in particular `header_format` in `encrypt_file()`.
 
 API
 ---
+
+-   TODO.
 
 Development notes
 -----------------
