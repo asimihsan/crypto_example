@@ -214,15 +214,6 @@ def encrypt_file(plaintext_file_obj,
                  chunk_size = 4096,
                  compress = False):
     # ------------------------------------------------------------------------
-    #   Determine the size of the plaintext. As we use CTR mode the ciphertext
-    #   will be the same size.
-    # ------------------------------------------------------------------------
-    plaintext_file_obj.seek(0, os.SEEK_END)
-    plaintext_size = plaintext_file_obj.tell()
-    plaintext_file_obj.seek(0, os.SEEK_SET)
-    # ------------------------------------------------------------------------
-
-    # ------------------------------------------------------------------------
     #   Prepare input key.
     # ------------------------------------------------------------------------
     password_salt = os.urandom(salt_length_in_bytes)
