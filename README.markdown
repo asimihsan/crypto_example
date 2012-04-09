@@ -97,6 +97,7 @@ As stated in [Cryptographic Right Answers](http://www.daemonology.net/blog/2009-
 -   Password handling: As soon as you receive a password, hash it using scrypt or PBKDF2 and erase the plaintext password from memory.
 
 Following from this, the process for encrypting a file is:
+
 -   Generate `password_salt`, a random 16-byte string.
 -   Using PBKDF2, derive `cipher_password_derived` from the key and `password_salt`. This will be used to encrypt the plaintext.
 -   Generate `nonce`, a random 8-byte string concatenated with a counter that starts at 0.
@@ -106,9 +107,14 @@ Following from this, the process for encrypting a file is:
 -   Start a new HMAC instance which hashes all values used, not just the ciphertext that will eventually be generated, using `hmac_password_derived`.
 -   Read in the plaintext in chunks from the file-like object. If we're compressing then stream this into a BZ2Compressor() instance. Write this into the ciphertext file.
 
-and the process for decrypting a file:
+and the process for decrypting a file (`decrypt_file()`):
 
--   TODO. Reverse of above :).
+-   Unpack the start of the encrypted file to get configuration values (`pbkdf2_count`, `pbkdf2_dk_len`, `compress`) and public values (`password_salt`, `nonce`, `hmac_salt`).
+-   Prepare the HMAC with the configuration values and public values.
+-   First pass: stream in the ciphertext into the HMAC object. If the HMAC isn't value, bail out.
+-   Use PBKDF2 to derive the password.
+-   Create an AES instance in CTR mode using the derived password.
+-   Second pass: stream in the ciphertext. If we're compressing then decompress as well. Write this to the ciphertext file.
 
 the file format of an encrypted file is:
 
