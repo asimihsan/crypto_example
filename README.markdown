@@ -125,7 +125,7 @@ Development notes
 
 -   While developing I like installing [watchdog](https://github.com/gorakhargosh/watchdog) and then using the following command from the root of the git repo to auto-rerun the nose unit tests:
 
-        I:\Programming\crypto_example>watchmedo shell-command --patterns="*.py" --recursive --command="nosetests --no-skip --detailed-errors --stop --verbosity=2 --test test/"
+        I:\Programming\crypto_example>watchmedo shell-command --patterns="*.py" --recursive --command="nosetests --no-skip --detailed-errors --stop --verbosity=2 --tests test/"
 
 TODO
 ----
